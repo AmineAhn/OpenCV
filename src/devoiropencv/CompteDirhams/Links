@@ -1,0 +1,28 @@
+----------------------------- FAST CORNER DETECTION -------------------------------
+ @Override
+public Mat onCameraFrame(CameraBridgeViewBase.CvCameraViewFrame inputFrame) {
+    MatOfKeyPoint points = new MatOfKeyPoint();
+    try {
+        Mat mat = inputFrame.rgba();
+        FeatureDetector fast = FeatureDetector.create(FeatureDetector.FAST);
+        fast.detect(mat, points);
+
+
+        Scalar redcolor = new Scalar(255, 0, 0);
+        Mat mRgba = mat.clone();
+        Imgproc.cvtColor(mat, mRgba, Imgproc.COLOR_RGBA2RGB, 4);
+
+        Features2d.drawKeypoints(mRgba, points, mRgba, redcolor, 1);
+        mat.release();
+        return mRgba;
+    }
+    catch (Exception e)
+    {
+        return inputFrame.rgba();
+    }
+}
+
+
+Link: https://stackoverflow.com/questions/44519080/android-opencv-fast-corner-detection-filtering
+
+-----------------------------------------------------------------------------------
